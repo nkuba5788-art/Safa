@@ -4,126 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SzafaX | Konto</title>
-  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header class="top">
-  <a class="logo" href="index.html">
-    Szafa<span>X</span>
-  </a>
+<h1>SzafaX</h1>
 
-  <nav>
-    <a href="index.html">Sklep</a>
-  </nav>
-</header>
+<div id="login">
+  <h2>Zaloguj się</h2>
 
-<main class="container accountPage">
+  <input id="email" type="email" placeholder="E-mail">
+  <input id="password" type="password" placeholder="Hasło">
 
-  <div class="accountCard">
+  <button id="loginButton">Zaloguj się</button>
 
-    <h1 id="title">Zaloguj się 👋</h1>
-
-    <!-- LOGOWANIE -->
-
-    <div id="loginBox">
-
-      <label>E-mail</label>
-      <input
-        id="loginEmail"
-        type="email"
-        placeholder="twoj@email.pl"
-      >
-
-      <label>Hasło</label>
-      <input
-        id="loginPassword"
-        type="password"
-        placeholder="Hasło"
-      >
-
-      <button class="mainButton" onclick="login()">
-        Zaloguj się
-      </button>
-
-      <p>
-        Nie masz konta?
-        <button class="linkButton" onclick="showRegister()">
-          Zarejestruj się
-        </button>
-      </p>
-
-    </div>
-
-
-    <!-- REJESTRACJA -->
-
-    <div id="registerBox" style="display:none">
-
-      <label>Imię</label>
-      <input
-        id="registerName"
-        placeholder="Kuba"
-      >
-
-      <label>E-mail</label>
-      <input
-        id="registerEmail"
-        type="email"
-        placeholder="twoj@email.pl"
-      >
-
-      <label>Hasło</label>
-      <input
-        id="registerPassword"
-        type="password"
-        placeholder="Minimum 6 znaków"
-      >
-
-      <button class="mainButton" onclick="register()">
-        Utwórz konto
-      </button>
-
-      <p>
-        Masz już konto?
-        <button class="linkButton" onclick="showLogin()">
-          Zaloguj się
-        </button>
-      </p>
-
-    </div>
-
-
-    <!-- ZALOGOWANY -->
-
-    <div id="loggedBox" style="display:none">
-
-      <h2>Witaj! 👋</h2>
-
-      <p id="userEmail"></p>
-
-      <button class="mainButton" onclick="logout()">
-        Wyloguj się
-      </button>
-
-      <br><br>
-
-      <a href="index.html">
-        Wróć do sklepu
-      </a>
-
-    </div>
-
-  </div>
-
-</main>
-
+  <p id="message"></p>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-
 const SUPABASE_URL =
   "https://whghzllbfantputsvbvc.supabase.co";
 
@@ -136,163 +36,45 @@ const supabaseClient =
     SUPABASE_KEY
   );
 
+document
+  .getElementById("loginButton")
+  .addEventListener("click", async () => {
 
-// SPRAWDZANIE LOGOWANIA
+    const email =
+      document.getElementById("email").value.trim();
 
-async function checkUser() {
+    const password =
+      document.getElementById("password").value;
 
-  const {
-    data: { user }
-  } = await supabaseClient.auth.getUser();
+    const message =
+      document.getElementById("message");
 
-  if (user) {
+    if (!email || !password) {
+      message.textContent =
+        "Wpisz e-mail i hasło.";
+      return;
+    }
 
-    document.getElementById("loginBox")
-      .style.display = "none";
+    message.textContent = "Logowanie...";
 
-    document.getElementById("registerBox")
-      .style.display = "none";
+    const { data, error } =
+      await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
 
-    document.getElementById("loggedBox")
-      .style.display = "block";
+    if (error) {
+      message.textContent =
+        "Błąd: " + error.message;
+      return;
+    }
 
-    document.getElementById("title")
-      .textContent = "Twoje konto 👤";
+    message.textContent =
+      "Zalogowano! 👋";
 
-    document.getElementById("userEmail")
-      .textContent = user.email;
-  }
-}
-
-
-// LOGOWANIE
-
-async function login() {
-
-  const email =
-    document.getElementById("loginEmail").value.trim();
-
-  const password =
-    document.getElementById("loginPassword").value;
-
-  if (!email || !password) {
-    alert("Wpisz e-mail i hasło.");
-    return;
-  }
-
-  const { error } =
-    await supabaseClient.auth.signInWithPassword({
-      email,
-      password
-    });
-
-  if (error) {
-
-    alert(error.message);
-    return;
-
-  }
-
-  location.reload();
-}
-
-
-// REJESTRACJA
-
-async function register() {
-
-  const name =
-    document.getElementById("registerName").value.trim();
-
-  const email =
-    document.getElementById("registerEmail").value.trim();
-
-  const password =
-    document.getElementById("registerPassword").value;
-
-  if (!name || !email || !password) {
-    alert("Uzupełnij wszystkie pola.");
-    return;
-  }
-
-  if (password.length < 6) {
-    alert("Hasło musi mieć minimum 6 znaków.");
-    return;
-  }
-
-  const { error } =
-    await supabaseClient.auth.signUp({
-
-      email,
-      password,
-
-      options: {
-        data: {
-          full_name: name
-        }
-      }
-
-    });
-
-  if (error) {
-
-    alert(error.message);
-    return;
-
-  }
-
-  alert(
-    "Konto utworzone! Jeśli pojawi się wiadomość o potwierdzeniu, sprawdź e-mail."
-  );
-
-  showLogin();
-}
-
-
-// WYLOGOWANIE
-
-async function logout() {
-
-  await supabaseClient.auth.signOut();
-
-  location.reload();
-
-}
-
-
-// POKAŻ REJESTRACJĘ
-
-function showRegister() {
-
-  document.getElementById("loginBox")
-    .style.display = "none";
-
-  document.getElementById("registerBox")
-    .style.display = "block";
-
-  document.getElementById("title")
-    .textContent = "Utwórz konto 🚀";
-}
-
-
-// POKAŻ LOGOWANIE
-
-function showLogin() {
-
-  document.getElementById("registerBox")
-    .style.display = "none";
-
-  document.getElementById("loginBox")
-    .style.display = "block";
-
-  document.getElementById("title")
-    .textContent = "Zaloguj się 👋";
-}
-
-
-checkUser();
-
+    console.log(data);
+  });
 </script>
 
 </body>
-  </html>
+</html>
