@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SzafaX</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="top">
+  <a class="logo" href="index.html">Szafa<span>X</span></a>
+
+  <nav>
+    <a href="#shop">Sklep</a>
+    <a href="#categories">Kategorie</a>
+    <a href="account.html">Konto</a>
+    <button onclick="openCart()">🛒 <b id="cartCount">0</b></button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div>
+    <p class="small">NOWA GENERACJA SECOND-HAND</p>
+    <h1>Znajdź coś<br><span>dla siebie.</span></h1>
+    <p>Kupuj i sprzedawaj ubrania na SzafaX.</p>
+    <a href="#shop" class="heroBtn">Przeglądaj ubrania</a>
+  </div>
+</section>
+
+<section class="container" id="shop">
+
+  <div class="sectionHead">
+    <div>
+      <p class="small">SZAFAX MARKET</p>
+      <h2>Ubrania</h2>
+    </div>
+
+    <button onclick="openAddProduct()">＋ Sprzedaj coś</button>
+  </div>
+
+  <div class="filters">
+
+    <input
+      id="search"
+      placeholder="🔎 Szukaj..."
+      oninput="renderProducts()"
+    >
+
+    <select id="category" onchange="renderProducts()">
+      <option value="">Wszystkie</option>
+      <option>Koszulki</option>
+      <option>Bluzy</option>
+      <option>Spodnie</option>
+      <option>Kurtki</option>
+      <option>Buty</option>
+      <option>Czapki</option>
+      <option>Inne</option>
+    </select>
+
+    <select id="sort" onchange="renderProducts()">
+      <option value="new">Najnowsze</option>
+      <option value="cheap">Najtańsze</option>
+      <option value="expensive">Najdroższe</option>
+    </select>
+
+  </div>
+
+  <div id="products" class="products"></div>
+
+</section>
+
+<section class="categories" id="categories">
+  <div class="container">
+    <p class="small">PRZEGLĄDAJ</p>
+    <h2>Kategorie</h2>
+
+    <div class="categoryGrid">
+      <button onclick="chooseCategory('Koszulki')">👕 Koszulki</button>
+      <button onclick="chooseCategory('Bluzy')">🧥 Bluzy</button>
+      <button onclick="chooseCategory('Spodnie')">👖 Spodnie</button>
+      <button onclick="chooseCategory('Kurtki')">🥼 Kurtki</button>
+      <button onclick="chooseCategory('Buty')">👟 Buty</button>
+      <button onclick="chooseCategory('Czapki')">🧢 Czapki</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <b>SzafaX</b>
+  <p>Marketplace ubrań.</p>
+</footer>
+
+
+<!-- PRODUKT -->
+
+<div id="productModal" class="modal">
+  <div class="modalBox">
+
+    <button class="close" onclick="closeModal('productModal')">×</button>
+
+    <img id="productImage" class="productBig">
+
+    <div class="productDetails">
+      <p id="productCategory" class="small"></p>
+      <h2 id="productName"></h2>
+      <h3 id="productPrice"></h3>
+      <p id="productSize"></p>
+      <p id="productDescription"></p>
+
+      <button id="addButton" class="mainButton">
+        Dodaj do koszyka
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- KOSZYK -->
+
+<div id="cartModal" class="modal">
+  <div class="modalBox cartBox">
+
+    <button class="close" onclick="closeModal('cartModal')">×</button>
+
+    <h2>Twój koszyk 🛒</h2>
+
+    <div id="cartItems"></div>
+
+    <div class="cartBottom">
+      <b>Razem</b>
+      <strong id="cartTotal">0,00 zł</strong>
+    </div>
+
+    <button onclick="goCheckout()" class="mainButton">
+      Przejdź do zamówienia
+    </button>
+
+  </div>
+</div>
+
+
+<!-- CHECKOUT -->
+
+<div id="checkoutModal" class="modal">
+  <div class="modalBox checkout">
+
+    <button class="close" onclick="closeModal('checkoutModal')">×</button>
+
+    <h2>Zamówienie 📦</h2>
+
+    <label>Imię i nazwisko</label>
+    <input id="buyerName" placeholder="Jan Kowalski">
+
+    <label>E-mail</label>
+    <input id="buyerEmail" type="email" placeholder="jan@email.pl">
+
+    <label>Telefon</label>
+    <input id="buyerPhone" placeholder="123456789">
+
+    <h3>Dostawa</h3>
+
+    <button
+      class="parcelButton"
+      onclick="chooseParcel()"
+    >
+      📦 Wybierz Paczkomat
+    </button>
+
+    <div id="parcelInfo" class="parcelInfo">
+      Nie wybrano Paczkomatu
+    </div>
+
+    <h3>Płatność</h3>
+
+    <div class="paymentOption">
+      💳 Płatność online
+      <small>Bezpieczna płatność</small>
+    </div>
+
+    <button class="mainButton" onclick="createOrder()">
+      Przejdź do płatności
+    </button>
+
+  </div>
+</div>
+
+
+<!-- DODAWANIE -->
+
+<div id="addModal" class="modal">
+  <div class="modalBox">
+
+    <button class="close" onclick="closeModal('addModal')">×</button>
+
+    <h2>Sprzedaj ubranie</h2>
+
+    <label>Nazwa</label>
+    <input id="newName" placeholder="np. Bluza Nike">
+
+    <label>Cena</label>
+    <input id="newPrice" type="number" step="0.01">
+
+    <label>Rozmiar</label>
+    <input id="newSize" placeholder="M">
+
+    <label>Kategoria</label>
+    <select id="newCategory">
+      <option>Koszulki</option>
+      <option>Bluzy</option>
+      <option>Spodnie</option>
+      <option>Kurtki</option>
+      <option>Buty</option>
+      <option>Czapki</option>
+      <option>Inne</option>
+    </select>
+
+    <label>Zdjęcie</label>
+    <input id="newImage" type="file" accept="image/*">
+
+    <label>Opis</label>
+    <textarea id="newDescription"></textarea>
+
+    <button class="mainButton" onclick="addProduct()">
+      Wystaw przedmiot
+    </button>
+
+  </div>
+</div>
+
+
+<script src="app.js"></script>
+
+</body>
+</html>
