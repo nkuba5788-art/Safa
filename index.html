@@ -4,52 +4,410 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SzafaX</title>
-<link rel="stylesheet" href="style.css">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,sans-serif;
+  background:#f5f5f7;
+  color:#111;
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:#fff;
+  border-bottom:1px solid #ddd;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 5%;
+}
+
+.logo{
+  color:#111;
+  text-decoration:none;
+  font-size:27px;
+  font-weight:900;
+}
+.logo span{color:#7c3aed}
+
+nav{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+nav a,nav button{
+  border:0;
+  background:#f1f1f1;
+  padding:10px 13px;
+  border-radius:12px;
+  text-decoration:none;
+  color:#111;
+  font-weight:bold;
+}
+
+.hero{
+  min-height:430px;
+  display:flex;
+  align-items:center;
+  padding:60px 7%;
+  color:#fff;
+  background:
+    radial-gradient(circle at 80% 20%,#8b5cf6 0,transparent 28%),
+    linear-gradient(135deg,#090909,#27232f);
+}
+
+.hero small{
+  color:#c4b5fd;
+  font-weight:bold;
+  letter-spacing:2px;
+}
+
+.hero h1{
+  font-size:clamp(45px,9vw,90px);
+  line-height:.9;
+  margin:18px 0;
+}
+.hero h1 span{color:#a78bfa}
+.hero p{font-size:18px;color:#ddd}
+
+.hero button{
+  margin-top:28px;
+  padding:15px 22px;
+  border-radius:14px;
+  border:0;
+  font-weight:bold;
+}
+
+.container{
+  width:min(1250px,92%);
+  margin:45px auto;
+}
+
+.head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:22px;
+}
+
+.head h2{font-size:32px}
+
+.sell{
+  background:#111;
+  color:#fff;
+  border-radius:13px;
+  padding:13px 18px;
+  font-weight:bold;
+}
+
+.filters{
+  display:grid;
+  grid-template-columns:1fr 180px 180px;
+  gap:10px;
+  margin-bottom:25px;
+}
+
+input,select,textarea{
+  width:100%;
+  padding:14px;
+  border:1px solid #ddd;
+  border-radius:12px;
+  background:#fff;
+  outline:none;
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+.products{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #e1e1e1;
+  border-radius:18px;
+  overflow:hidden;
+  transition:.2s;
+}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 15px 35px #0002;
+}
+
+.photo{
+  height:260px;
+  background:#eee;
+  position:relative;
+}
+.photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.badge{
+  position:absolute;
+  top:10px;
+  left:10px;
+  background:#fff;
+  padding:6px 9px;
+  border-radius:8px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.info{padding:15px}
+.info h3{margin-bottom:7px}
+.meta{color:#777;font-size:13px}
+.price{
+  font-size:20px;
+  font-weight:900;
+  margin:12px 0;
+}
+
+.view{
+  width:100%;
+  padding:11px;
+  background:#111;
+  color:#fff;
+  border-radius:11px;
+  font-weight:bold;
+}
+
+.categories{
+  background:#fff;
+  padding:50px 0;
+}
+
+.categoryGrid{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:12px;
+  margin-top:20px;
+}
+
+.categoryGrid button{
+  background:#f3f3f3;
+  padding:20px 10px;
+  border-radius:15px;
+  border:1px solid #ddd;
+  font-weight:bold;
+}
+
+footer{
+  background:#111;
+  color:#fff;
+  padding:40px 7%;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:#0008;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+
+.box{
+  width:min(600px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:#fff;
+  border-radius:22px;
+  padding:25px;
+  position:relative;
+}
+
+.close{
+  position:absolute;
+  right:15px;
+  top:12px;
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  background:#eee;
+  font-size:22px;
+}
+
+.box h2{margin-bottom:20px}
+
+.bigImg{
+  width:100%;
+  max-height:400px;
+  object-fit:cover;
+  border-radius:15px;
+  margin-bottom:18px;
+}
+
+.field{
+  margin-bottom:14px;
+}
+.field label{
+  display:block;
+  margin-bottom:6px;
+  font-weight:bold;
+}
+
+.main{
+  width:100%;
+  padding:14px;
+  background:#111;
+  color:#fff;
+  border-radius:12px;
+  border:0;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+.cartItem{
+  display:flex;
+  gap:12px;
+  padding:12px 0;
+  border-bottom:1px solid #ddd;
+}
+
+.cartItem img{
+  width:70px;
+  height:70px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.remove{
+  margin-top:6px;
+  background:#eee;
+  padding:6px 9px;
+  border-radius:8px;
+}
+
+.total{
+  display:flex;
+  justify-content:space-between;
+  margin:20px 0;
+  font-size:20px;
+}
+
+.empty{
+  padding:40px;
+  text-align:center;
+  color:#777;
+}
+
+@media(max-width:900px){
+  .products{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .categoryGrid{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .filters{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:600px){
+  header{
+    padding:12px;
+  }
+
+  nav a{
+    display:none;
+  }
+
+  .hero{
+    min-height:380px;
+    padding:45px 6%;
+  }
+
+  .products{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .photo{
+    height:210px;
+  }
+
+  .info{
+    padding:11px;
+  }
+
+  .categoryGrid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+</style>
 </head>
 
 <body>
 
-<header class="top">
-  <a class="logo" href="index.html">Szafa<span>X</span></a>
+<header>
+  <a class="logo" href="#">Szafa<span>X</span></a>
 
   <nav>
     <a href="#shop">Sklep</a>
     <a href="#categories">Kategorie</a>
-    <a href="account.html">Konto</a>
     <button onclick="openCart()">🛒 <b id="cartCount">0</b></button>
+    <button onclick="openSell()">＋ Sprzedaj</button>
   </nav>
 </header>
 
 <section class="hero">
   <div>
-    <p class="small">NOWA GENERACJA SECOND-HAND</p>
-    <h1>Znajdź coś<br><span>dla siebie.</span></h1>
+    <small>NOWA GENERACJA SECOND-HAND</small>
+
+    <h1>
+      Znajdź coś<br>
+      <span>dla siebie.</span>
+    </h1>
+
     <p>Kupuj i sprzedawaj ubrania na SzafaX.</p>
-    <a href="#shop" class="heroBtn">Przeglądaj ubrania</a>
+
+    <button onclick="document.getElementById('shop').scrollIntoView()">
+      Przeglądaj ubrania
+    </button>
   </div>
 </section>
 
 <section class="container" id="shop">
 
-  <div class="sectionHead">
+  <div class="head">
     <div>
-      <p class="small">SZAFAX MARKET</p>
+      <small>SZAFAX MARKET</small>
       <h2>Ubrania</h2>
     </div>
 
-    <button onclick="openAddProduct()">＋ Sprzedaj coś</button>
+    <button class="sell" onclick="openSell()">
+      ＋ Sprzedaj coś
+    </button>
   </div>
 
   <div class="filters">
 
     <input
       id="search"
-      placeholder="🔎 Szukaj..."
-      oninput="renderProducts()"
+      placeholder="🔎 Szukaj ubrań..."
+      oninput="render()"
     >
 
-    <select id="category" onchange="renderProducts()">
-      <option value="">Wszystkie</option>
+    <select id="category" onchange="render()">
+      <option value="">Wszystkie kategorie</option>
       <option>Koszulki</option>
       <option>Bluzy</option>
       <option>Spodnie</option>
@@ -59,7 +417,7 @@
       <option>Inne</option>
     </select>
 
-    <select id="sort" onchange="renderProducts()">
+    <select id="sort" onchange="render()">
       <option value="new">Najnowsze</option>
       <option value="cheap">Najtańsze</option>
       <option value="expensive">Najdroższe</option>
@@ -72,56 +430,67 @@
 </section>
 
 <section class="categories" id="categories">
+
   <div class="container">
-    <p class="small">PRZEGLĄDAJ</p>
+
+    <small>PRZEGLĄDAJ</small>
     <h2>Kategorie</h2>
 
     <div class="categoryGrid">
-      <button onclick="chooseCategory('Koszulki')">👕 Koszulki</button>
-      <button onclick="chooseCategory('Bluzy')">🧥 Bluzy</button>
-      <button onclick="chooseCategory('Spodnie')">👖 Spodnie</button>
-      <button onclick="chooseCategory('Kurtki')">🥼 Kurtki</button>
-      <button onclick="chooseCategory('Buty')">👟 Buty</button>
-      <button onclick="chooseCategory('Czapki')">🧢 Czapki</button>
+
+      <button onclick="category('Koszulki')">👕 Koszulki</button>
+      <button onclick="category('Bluzy')">🧥 Bluzy</button>
+      <button onclick="category('Spodnie')">👖 Spodnie</button>
+      <button onclick="category('Kurtki')">🥼 Kurtki</button>
+      <button onclick="category('Buty')">👟 Buty</button>
+      <button onclick="category('Czapki')">🧢 Czapki</button>
+
     </div>
+
   </div>
+
 </section>
 
 <footer>
-  <b>SzafaX</b>
+  <h2>SzafaX</h2>
   <p>Marketplace ubrań.</p>
 </footer>
 
 
 <!-- PRODUKT -->
 
-<div id="productModal" class="modal">
-  <div class="modalBox">
+<div class="modal" id="productModal">
+
+  <div class="box">
 
     <button class="close" onclick="closeModal('productModal')">×</button>
 
-    <img id="productImage" class="productBig">
+    <img id="bigImage" class="bigImg">
 
-    <div class="productDetails">
-      <p id="productCategory" class="small"></p>
-      <h2 id="productName"></h2>
-      <h3 id="productPrice"></h3>
-      <p id="productSize"></p>
-      <p id="productDescription"></p>
+    <small id="bigCategory"></small>
 
-      <button id="addButton" class="mainButton">
-        Dodaj do koszyka
-      </button>
-    </div>
+    <h2 id="bigName"></h2>
+
+    <p id="bigSize"></p>
+
+    <h2 id="bigPrice"></h2>
+
+    <p id="bigDescription"></p>
+
+    <button class="main" id="addToCart">
+      🛒 Dodaj do koszyka
+    </button>
 
   </div>
+
 </div>
 
 
 <!-- KOSZYK -->
 
-<div id="cartModal" class="modal">
-  <div class="modalBox cartBox">
+<div class="modal" id="cartModal">
+
+  <div class="box">
 
     <button class="close" onclick="closeModal('cartModal')">×</button>
 
@@ -129,120 +498,593 @@
 
     <div id="cartItems"></div>
 
-    <div class="cartBottom">
+    <div class="total">
       <b>Razem</b>
-      <strong id="cartTotal">0,00 zł</strong>
+      <b id="cartTotal">0,00 zł</b>
     </div>
 
-    <button onclick="goCheckout()" class="mainButton">
+    <button class="main" onclick="checkout()">
       Przejdź do zamówienia
     </button>
 
   </div>
+
 </div>
 
 
-<!-- CHECKOUT -->
+<!-- SPRZEDAŻ -->
 
-<div id="checkoutModal" class="modal">
-  <div class="modalBox checkout">
+<div class="modal" id="sellModal">
+
+  <div class="box">
+
+    <button class="close" onclick="closeModal('sellModal')">×</button>
+
+    <h2>Sprzedaj ubranie</h2>
+
+    <div class="field">
+      <label>Nazwa</label>
+      <input id="sellName" placeholder="np. Bluza Nike">
+    </div>
+
+    <div class="field">
+      <label>Cena</label>
+      <input id="sellPrice" type="number" step="0.01" placeholder="79.99">
+    </div>
+
+    <div class="field">
+      <label>Rozmiar</label>
+      <input id="sellSize" placeholder="M">
+    </div>
+
+    <div class="field">
+      <label>Kategoria</label>
+
+      <select id="sellCategory">
+        <option>Koszulki</option>
+        <option>Bluzy</option>
+        <option>Spodnie</option>
+        <option>Kurtki</option>
+        <option>Buty</option>
+        <option>Czapki</option>
+        <option>Inne</option>
+      </select>
+
+    </div>
+
+    <div class="field">
+      <label>Zdjęcie</label>
+      <input id="sellImage" type="file" accept="image/*">
+    </div>
+
+    <div class="field">
+      <label>Opis</label>
+      <textarea id="sellDescription" placeholder="Stan, marka, informacje..."></textarea>
+    </div>
+
+    <button class="main" onclick="addProduct()">
+      🚀 Wystaw przedmiot
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- ZAMÓWIENIE -->
+
+<div class="modal" id="checkoutModal">
+
+  <div class="box">
 
     <button class="close" onclick="closeModal('checkoutModal')">×</button>
 
     <h2>Zamówienie 📦</h2>
 
-    <label>Imię i nazwisko</label>
-    <input id="buyerName" placeholder="Jan Kowalski">
-
-    <label>E-mail</label>
-    <input id="buyerEmail" type="email" placeholder="jan@email.pl">
-
-    <label>Telefon</label>
-    <input id="buyerPhone" placeholder="123456789">
-
-    <h3>Dostawa</h3>
-
-    <button
-      class="parcelButton"
-      onclick="chooseParcel()"
-    >
-      📦 Wybierz Paczkomat
-    </button>
-
-    <div id="parcelInfo" class="parcelInfo">
-      Nie wybrano Paczkomatu
+    <div class="field">
+      <label>Imię i nazwisko</label>
+      <input id="buyerName" placeholder="Jan Kowalski">
     </div>
 
-    <h3>Płatność</h3>
-
-    <div class="paymentOption">
-      💳 Płatność online
-      <small>Bezpieczna płatność</small>
+    <div class="field">
+      <label>E-mail</label>
+      <input id="buyerEmail" type="email" placeholder="jan@email.pl">
     </div>
 
-    <button class="mainButton" onclick="createOrder()">
-      Przejdź do płatności
+    <div class="field">
+      <label>Telefon</label>
+      <input id="buyerPhone" placeholder="123456789">
+    </div>
+
+    <div class="field">
+      <label>Paczkomat</label>
+      <input id="parcel" placeholder="np. WAW123M">
+    </div>
+
+    <button class="main" onclick="createOrder()">
+      📦 Utwórz zamówienie
     </button>
 
   </div>
+
 </div>
 
-
-<!-- DODAWANIE -->
-
-<div id="addModal" class="modal">
-  <div class="modalBox">
-
-    <button class="close" onclick="closeModal('addModal')">×</button>
-
-    <h2>Sprzedaj ubranie</h2>
-
-    <label>Nazwa</label>
-    <input id="newName" placeholder="np. Bluza Nike">
-
-    <label>Cena</label>
-    <input id="newPrice" type="number" step="0.01">
-
-    <label>Rozmiar</label>
-    <input id="newSize" placeholder="M">
-
-    <label>Kategoria</label>
-    <select id="newCategory">
-      <option>Koszulki</option>
-      <option>Bluzy</option>
-      <option>Spodnie</option>
-      <option>Kurtki</option>
-      <option>Buty</option>
-      <option>Czapki</option>
-      <option>Inne</option>
-    </select>
-
-    <label>Zdjęcie</label>
-    <input id="newImage" type="file" accept="image/*">
-
-    <label>Opis</label>
-    <textarea id="newDescription"></textarea>
-
-    <button class="mainButton" onclick="addProduct()">
-      Wystaw przedmiot
-    </button>
-
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-const SUPABASE_URL = "https://whghzllbfantputsvbvc.supabase.co";
-const SUPABASE_KEY = "sb_publishable_-ObakG7YMEesq-AoBSU1uQ_nfIc6Tf_;
 
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
+const demoProducts = [
+
+{
+ id:1,
+ name:"Bluza Oversize",
+ price:79.99,
+ size:"M",
+ category:"Bluzy",
+ description:"Wygodna bluza oversize.",
+ image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=80",
+ created:Date.now()
+},
+
+{
+ id:2,
+ name:"Koszulka Basic",
+ price:39.99,
+ size:"L",
+ category:"Koszulki",
+ description:"Prosta koszulka basic.",
+ image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80",
+ created:Date.now()-1000
+}
+
+];
+
+let products=JSON.parse(
+ localStorage.getItem("szafax_products")
 );
+
+if(!products){
+ products=demoProducts;
+ saveProducts();
+}
+
+let cart=JSON.parse(
+ localStorage.getItem("szafax_cart") || "[]"
+);
+
+
+function saveProducts(){
+
+ localStorage.setItem(
+  "szafax_products",
+  JSON.stringify(products)
+ );
+
+}
+
+
+function saveCart(){
+
+ localStorage.setItem(
+  "szafax_cart",
+  JSON.stringify(cart)
+ );
+
+}
+
+
+function render(){
+
+ const box=document.getElementById("products");
+
+ const search=document
+  .getElementById("search")
+  .value
+  .toLowerCase();
+
+ const cat=document
+  .getElementById("category")
+  .value;
+
+ const sort=document
+  .getElementById("sort")
+  .value;
+
+ let list=products.filter(p=>
+
+  p.name.toLowerCase().includes(search)
+  &&
+  (!cat || p.category===cat)
+
+ );
+
+
+ if(sort==="cheap")
+  list.sort((a,b)=>a.price-b.price);
+
+ if(sort==="expensive")
+  list.sort((a,b)=>b.price-a.price);
+
+ if(sort==="new")
+  list.sort((a,b)=>b.created-a.created);
+
+
+ if(!list.length){
+
+  box.innerHTML=
+   '<div class="empty">Nie znaleziono produktów.</div>';
+
+  return;
+
+ }
+
+
+ box.innerHTML=list.map(p=>`
+
+  <article class="card">
+
+    <div class="photo">
+
+      <span class="badge">${escapeHTML(p.category)}</span>
+
+      <img
+        src="${p.image}"
+        alt="${escapeHTML(p.name)}"
+      >
+
+    </div>
+
+    <div class="info">
+
+      <h3>${escapeHTML(p.name)}</h3>
+
+      <p class="meta">
+        Rozmiar: ${escapeHTML(p.size)}
+      </p>
+
+      <div class="price">
+        ${Number(p.price).toFixed(2)} zł
+      </div>
+
+      <button
+        class="view"
+        onclick="openProduct(${p.id})"
+      >
+        Zobacz
+      </button>
+
+    </div>
+
+  </article>
+
+ `).join("");
+
+}
+
+
+function openProduct(id){
+
+ const p=products.find(x=>x.id===id);
+
+ if(!p)return;
+
+ document.getElementById("bigImage").src=p.image;
+
+ document.getElementById("bigCategory")
+  .textContent=p.category;
+
+ document.getElementById("bigName")
+  .textContent=p.name;
+
+ document.getElementById("bigSize")
+  .textContent="Rozmiar: "+p.size;
+
+ document.getElementById("bigPrice")
+  .textContent=Number(p.price).toFixed(2)+" zł";
+
+ document.getElementById("bigDescription")
+  .textContent=p.description || "";
+
+ document.getElementById("addToCart").onclick=()=>{
+
+  cart.push(p);
+
+  saveCart();
+
+  updateCart();
+
+  closeModal("productModal");
+
+ };
+
+ openModal("productModal");
+
+}
+
+
+function openCart(){
+
+ renderCart();
+
+ openModal("cartModal");
+
+}
+
+
+function renderCart(){
+
+ const box=document.getElementById("cartItems");
+
+ if(!cart.length){
+
+  box.innerHTML=
+   '<div class="empty">Koszyk jest pusty 🛒</div>';
+
+  document.getElementById("cartTotal")
+   .textContent="0,00 zł";
+
+  return;
+
+ }
+
+
+ let total=0;
+
+ box.innerHTML=cart.map((p,i)=>{
+
+  total+=Number(p.price);
+
+  return `
+
+   <div class="cartItem">
+
+    <img src="${p.image}">
+
+    <div>
+
+     <b>${escapeHTML(p.name)}</b>
+
+     <p>${Number(p.price).toFixed(2)} zł</p>
+
+     <button
+      class="remove"
+      onclick="removeCart(${i})"
+     >
+      Usuń
+     </button>
+
+    </div>
+
+   </div>
+
+  `;
+
+ }).join("");
+
+
+ document.getElementById("cartTotal")
+  .textContent=total.toFixed(2)+" zł";
+
+}
+
+
+function removeCart(i){
+
+ cart.splice(i,1);
+
+ saveCart();
+
+ updateCart();
+
+ renderCart();
+
+}
+
+
+function updateCart(){
+
+ document.getElementById("cartCount")
+  .textContent=cart.length;
+
+}
+
+
+function openSell(){
+
+ openModal("sellModal");
+
+}
+
+
+function addProduct(){
+
+ const name=
+  document.getElementById("sellName").value.trim();
+
+ const price=
+  Number(document.getElementById("sellPrice").value);
+
+ const size=
+  document.getElementById("sellSize").value.trim();
+
+ const category=
+  document.getElementById("sellCategory").value;
+
+ const description=
+  document.getElementById("sellDescription").value.trim();
+
+ const file=
+  document.getElementById("sellImage").files[0];
+
+
+ if(!name || !price || !size || !file){
+
+  alert("Uzupełnij nazwę, cenę, rozmiar i zdjęcie.");
+
+  return;
+
+ }
+
+
+ const reader=new FileReader();
+
+
+ reader.onload=()=>{
+
+  products.push({
+
+   id:Date.now(),
+
+   name,
+
+   price,
+
+   size,
+
+   category,
+
+   description,
+
+   image:reader.result,
+
+   created:Date.now()
+
+  });
+
+
+  saveProducts();
+
+  render();
+
+  closeModal("sellModal");
+
+
+  document.getElementById("sellName").value="";
+  document.getElementById("sellPrice").value="";
+  document.getElementById("sellSize").value="";
+  document.getElementById("sellDescription").value="";
+  document.getElementById("sellImage").value="";
+
+
+  alert("Przedmiot został wystawiony! 🚀");
+
+ };
+
+
+ reader.readAsDataURL(file);
+
+}
+
+
+function category(name){
+
+ document.getElementById("category").value=name;
+
+ document.getElementById("shop")
+  .scrollIntoView({behavior:"smooth"});
+
+ render();
+
+}
+
+
+function checkout(){
+
+ if(!cart.length){
+
+  alert("Koszyk jest pusty.");
+
+  return;
+
+ }
+
+ closeModal("cartModal");
+
+ openModal("checkoutModal");
+
+}
+
+
+function createOrder(){
+
+ const name=
+  document.getElementById("buyerName").value.trim();
+
+ const email=
+  document.getElementById("buyerEmail").value.trim();
+
+ const phone=
+  document.getElementById("buyerPhone").value.trim();
+
+ const parcel=
+  document.getElementById("parcel").value.trim();
+
+
+ if(!name || !email || !phone || !parcel){
+
+  alert("Uzupełnij wszystkie dane.");
+
+  return;
+
+ }
+
+
+ const orderId=
+  "SZX-"+Math.floor(
+   100000+Math.random()*900000
+  );
+
+
+ alert(
+  "Zamówienie "+orderId+
+  " zostało utworzone! 📦\n\n"+
+  "To jest obecnie wersja demonstracyjna."
+ );
+
+
+ cart=[];
+
+ saveCart();
+
+ updateCart();
+
+ closeModal("checkoutModal");
+
+}
+
+
+function openModal(id){
+
+ document.getElementById(id)
+  .style.display="flex";
+
+}
+
+
+function closeModal(id){
+
+ document.getElementById(id)
+  .style.display="none";
+
+}
+
+
+function escapeHTML(value){
+
+ return String(value ?? "")
+  .replaceAll("&","&amp;")
+  .replaceAll("<","&lt;")
+  .replaceAll(">","&gt;")
+  .replaceAll('"',"&quot;")
+  .replaceAll("'","&#039;");
+
+}
+
+
+render();
+
+updateCart();
+
 </script>
 
-<script src="app.js"></script>
-
 </body>
-</html>
+  </html>
