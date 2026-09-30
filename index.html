@@ -729,6 +729,14 @@ function render(){
         Zobacz
       </button>
 
+      <button
+  class="remove"
+  style="width:100%;margin-top:8px;border:0;background:#eee;"
+  onclick="deleteProduct(${p.id})"
+>
+  🗑️ Usuń
+</button>
+
     </div>
 
   </article>
@@ -842,6 +850,14 @@ function renderCart(){
   .textContent=total.toFixed(2)+" zł";
 
 }
+
+  function deleteProduct(id){
+  if(!confirm("Usunąć to ubranie?")) return;
+
+  products = products.filter(p => p.id !== id);
+  saveProducts();
+  render();
+  }
 
 
 function removeCart(i){
